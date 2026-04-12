@@ -1,4 +1,5 @@
 import pandas as pd
+import ast
 import re
 from .file_handler import FileHandler
 
@@ -34,11 +35,14 @@ class CleanUTMBData:
             utmb_df[col] = utmb_df[col].apply(extract_number)
         return utmb_df
 
-
     def replace_nulls_by_prefix(self, utmb_df: pd.DataFrame, prefix: str) -> pd.DataFrame:
         for col in utmb_df.columns:
             if prefix.lower() in col.lower():
                 utmb_df[col] = utmb_df[col].fillna(0)
+        return utmb_df
+    
+    def parse_race_results(self, utmb_df: pd.DataFrame) -> pd.DataFrame:
+        utmb_df["Results"] = utmb_df["Results"].apply(ast.literal_eval)
         return utmb_df
 
 

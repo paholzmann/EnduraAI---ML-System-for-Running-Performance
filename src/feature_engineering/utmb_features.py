@@ -75,4 +75,8 @@ class UTMBFeatures:
     
     def calculate_competition_features(self, utmb_df: pd.DataFrame) -> pd.DataFrame:
         self.logger.debug(f"Calculating competition features")
-        
+        utmb_df["Elite_Gap"] = (utmb_df["Top_10_Percent_Average_Time"] / utmb_df["Winning_Time"])
+        utmb_df["Podium_Gap"] = (utmb_df["Podium_Average_Time"] / utmb_df["Winning_Time"])
+        utmb_df["Depth_Of_Field"] = (utmb_df["Median_Time"] / utmb_df["Winning_Time"])
+        utmb_df["Top_vs_Median"] = (utmb_df["Top_10_Percent_Average_Time"] / utmb_df["Median_Time"])
+        return utmb_df

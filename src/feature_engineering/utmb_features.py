@@ -75,8 +75,17 @@ class UTMBFeatures:
     
     def calculate_competition_features(self, utmb_df: pd.DataFrame) -> pd.DataFrame:
         self.logger.debug(f"Calculating competition features")
+        utmb_df = utmb_df.copy()
         utmb_df["Elite_Gap"] = (utmb_df["Top_10_Percent_Average_Time"] / utmb_df["Winning_Time"])
         utmb_df["Podium_Gap"] = (utmb_df["Podium_Average_Time"] / utmb_df["Winning_Time"])
         utmb_df["Depth_Of_Field"] = (utmb_df["Median_Time"] / utmb_df["Winning_Time"])
         utmb_df["Top_vs_Median"] = (utmb_df["Top_10_Percent_Average_Time"] / utmb_df["Median_Time"])
+        return utmb_df
+    
+    def calculate_difficulty_features(self, utmb_df: pd.DataFrame) -> pd.DataFrame:
+        self.logger.debug(f"Calculating difficulty features")
+        utmb_df = utmb_df.copy()
+        utmb_df["Elevation_per_km"] = (utmb_df["Elevation_Gain"] / utmb_df["Distance"])
+        utmb_df["Effort_per_km"] = (utmb_df["Race_Effort"] / utmb_df["Distance"])
+        utmb_df["Spread_per_effort"] = (utmb_df["Winning_Slowest_Time_Range"] / utmb_df["Race_Effort"])
         return utmb_df
